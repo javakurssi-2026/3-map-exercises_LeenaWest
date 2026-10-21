@@ -41,7 +41,7 @@ public class PostalCodesMain {
 
         Scanner scanner = new Scanner(System.in);
         System.out.print("Input postal code or district (e.g., 00100 or Helsinki): ");
-        String answer = scanner.nextLine(); // answer may be a postal code or a postal district name
+        String answer = scanner.nextLine().trim();
 
         // TODO: Implement your logic here
         if (postalCodes.containsKey(answer)) {
@@ -51,9 +51,17 @@ public class PostalCodesMain {
 
             for (String postalCode : new TreeSet<>(postalCodes.keySet())) {
                 if (postalCodes.get(postalCode).equalsIgnoreCase(answer)) {
-                    System.out.println(postalCode);
+                    if (found) {
+                        System.out.print(" ");
+                    }
+
+                    System.out.print(postalCode);
                     found = true;
                 }
+            }
+
+            if (found) {
+                System.out.println();
             }
 
             if (!found) {
