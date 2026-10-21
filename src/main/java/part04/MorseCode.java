@@ -1,5 +1,8 @@
 package part04;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * This is an extra class, which is not included in the grading of the
  * assignment. Feel free to complete this class or skip it entirely. If you
@@ -39,8 +42,78 @@ public class MorseCode {
      * @param morse the morse code to translate
      * @return the translated text (in lower case)
      */
+    private final Map<Character, String> textToMorseMap = new HashMap<>();
+    private final Map<String, Character> morseToTextMap = new HashMap<>();
+
+    public MorseCode() {
+        textToMorseMap.put('a', ".-");
+        textToMorseMap.put('b', "-...");
+        textToMorseMap.put('c', "-.-.");
+        textToMorseMap.put('d', "-..");
+        textToMorseMap.put('e', ".");
+        textToMorseMap.put('f', "..-.");
+        textToMorseMap.put('g', "--.");
+        textToMorseMap.put('h', "....");
+        textToMorseMap.put('i', "..");
+        textToMorseMap.put('j', ".---");
+        textToMorseMap.put('k', "-.-");
+        textToMorseMap.put('l', ".-..");
+        textToMorseMap.put('m', "--");
+        textToMorseMap.put('n', "-.");
+        textToMorseMap.put('o', "---");
+        textToMorseMap.put('p', ".--.");
+        textToMorseMap.put('q', "--.-");
+        textToMorseMap.put('r', ".-.");
+        textToMorseMap.put('s', "...");
+        textToMorseMap.put('t', "-");
+        textToMorseMap.put('u', "..-");
+        textToMorseMap.put('v', "...-");
+        textToMorseMap.put('w', ".--");
+        textToMorseMap.put('x', "-..-");
+        textToMorseMap.put('y', "-.--");
+        textToMorseMap.put('z', "--..");
+
+        textToMorseMap.put('0', "-----");
+        textToMorseMap.put('1', ".----");
+        textToMorseMap.put('2', "..---");
+        textToMorseMap.put('3', "...--");
+        textToMorseMap.put('4', "....-");
+        textToMorseMap.put('5', ".....");
+        textToMorseMap.put('6', "-....");
+        textToMorseMap.put('7', "--...");
+        textToMorseMap.put('8', "---..");
+        textToMorseMap.put('9', "----.");
+
+        for (Map.Entry<Character, String> entry : textToMorseMap.entrySet()) {
+            morseToTextMap.put(entry.getValue(), entry.getKey());
+        }
+    }
+
     public String morseToText(String morse) {
-        return null;
+        StringBuilder result = new StringBuilder();
+        String[] words = morse.split(" {3}", -1);
+
+        for (int i = 0; i < words.length; i++) {
+            if (i > 0) {
+                result.append(" ");
+            }
+
+            if (words[i].isEmpty()) {
+                continue;
+            }
+
+            String[] letters = words[i].split(" ");
+
+            for (String letter : letters) {
+                Character character = morseToTextMap.get(letter);
+
+                if (character != null) {
+                    result.append(character);
+                }
+            }
+        }
+
+        return result.toString();
     }
 
     /**
@@ -58,6 +131,35 @@ public class MorseCode {
      * @return the translated morse code as a single string
      */
     public String textToMorse(String text) {
-        return null;
+        StringBuilder result = new StringBuilder();
+        boolean previousWasLetter = false;
+
+        for (int i = 0; i < text.length(); i++) {
+            char character = Character.toLowerCase(text.charAt(i));
+
+            if (character == ' ') {
+                if (previousWasLetter) {
+                    result.append("   ");
+                    previousWasLetter = false;
+                }
+            } else {
+                String morse = textToMorseMap.get(character);
+
+                if (morse != null) {
+                    if (result.length() > 0
+                            && result.charAt(result.length() - 1) != ' ') {
+                        result.append(" ");
+                    } else if (result.length() > 0
+                            && previousWasLetter) {
+                        result.append(" ");
+                    }
+
+                    result.append(morse);
+                    previousWasLetter = true;
+                }
+            }
+        }
+
+        return result.toString().trim();
     }
 }
