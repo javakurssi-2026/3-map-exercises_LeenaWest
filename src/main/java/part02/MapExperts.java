@@ -1,5 +1,6 @@
 package part02;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,12 +26,19 @@ public class MapExperts {
      * contains only letters.
      */
     public Map<Character, Integer> countLetters(String word) {
-        /*
-         * Hint: you can get the characters of a String using either the charAt() method
-         * or the toCharArray() method. charAt() returns a single character and
-         * toCharArray() returns an array of characters.
-         */
-        return null;
+        Map<Character, Integer> counts = new HashMap<>();
+
+        for (int i = 0; i < word.length(); i++) {
+            char letter = word.charAt(i);
+
+            if (counts.containsKey(letter)) {
+                counts.put(letter, counts.get(letter) + 1);
+            } else {
+                counts.put(letter, 1);
+            }
+        }
+
+        return counts;
     }
 
     /**
@@ -42,17 +50,14 @@ public class MapExperts {
      * { 1 -> "one", 2 -> "two", 3 -> "three" }
      */
     public Map<Integer, String> reverseMap(Map<String, Integer> map) {
-        /*
-         * The keys of a map are always unique, so we can't have two keys with the same
-         * value. However, there is no such restriction for the values of a map:
-         *
-         * { "apples" -> 1, "oranges" -> 1 }
-         *
-         * If the given map contains multiple keys with the same value, as above, you
-         * can choose any of the keys to be the value of the reversed map. So either
-         * { 1 -> "apples" } or { 1 -> "oranges" } will be accepted.
-         */
-        return null;
+        Map<Integer, String> reversed = new HashMap<>();
+
+        for (String key : map.keySet()) {
+            Integer value = map.get(key);
+            reversed.put(value, key);
+        }
+
+        return reversed;
     }
 
     /**
@@ -70,13 +75,12 @@ public class MapExperts {
      * "SOF004AS2A" -> Course("SOF004AS2A", "Python-ohjelmointi")
      */
     public Map<String, Course> createMapFromList(List<Course> list) {
-        /*
-         * Each Course object has a code and a name. You can access them using the
-         * code() and name() methods:
-         *
-         * String code = course.code();
-         * String name = course.name(); // you won't need this in the exercise
-         */
-        return null;
+        Map<String, Course> courses = new HashMap<>();
+
+        for (Course course : list) {
+            courses.put(course.code(), course);
+        }
+
+        return courses;
     }
 }

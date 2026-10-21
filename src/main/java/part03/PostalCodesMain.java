@@ -2,6 +2,7 @@ package part03;
 
 import java.util.Map;
 import java.util.Scanner;
+import java.util.TreeSet;
 
 /**
  * This part of the exercise is tested manually through the user interface, not
@@ -12,7 +13,6 @@ import java.util.Scanner;
  */
 
 public class PostalCodesMain {
-
     /**
      * Implement your logic in this method. You can also add your own methods and
      * classes if needed.
@@ -28,6 +28,7 @@ public class PostalCodesMain {
      * program should be case-insensitive. For example, the program should display
      * "00100" whether the user enters "helsinki" or "HELSINKI".
      */
+
     public static void main(String[] args) {
         /*
          * This map contains data that is read from the JSON file. You don't need to
@@ -43,6 +44,22 @@ public class PostalCodesMain {
         String answer = scanner.nextLine(); // answer may be a postal code or a postal district name
 
         // TODO: Implement your logic here
+        if (postalCodes.containsKey(answer)) {
+            System.out.println(postalCodes.get(answer));
+        } else {
+            boolean found = false;
+
+            for (String postalCode : new TreeSet<>(postalCodes.keySet())) {
+                if (postalCodes.get(postalCode).equalsIgnoreCase(answer)) {
+                    System.out.println(postalCode);
+                    found = true;
+                }
+            }
+
+            if (!found) {
+                System.out.println("No results found.");
+            }
+        }
 
         scanner.close();
     }
